@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHOEB | Luxury Indian Hotel & Restaurant</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --gold:#c59d2f;
+    --saffron:#e87a1f;
+    --bg:#ffffff;
+    --surface:#f5f5f2;
+    --card:#ffffff;
+    --ink:#111827;
+    --muted:#6b7280;
+    --border:rgba(0,0,0,0.08);
+    --glass:rgba(255,255,255,0.6);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Playfair Display',serif}
+  .glass{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border)}
+  .gold-text{color:var(--gold)}
+  .saffron-text{color:var(--saffron)}
+  .btn-gold{
+    background:linear-gradient(135deg,var(--gold),var(--saffron));
+    color:#fff;
+    font-weight:800;
+    transition:transform .2s,box-shadow .2s,filter .2s;
+  }
+  .btn-gold:hover{transform:translateY(-2px);filter:brightness(1.1);box-shadow:0 0 30px rgba(197,157,47,0.45)}
+  .nav-link{position:relative;color:var(--ink)}
+  .nav-link::after{content:'';position:absolute;bottom:-6px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s}
+  .nav-link.active::after,.nav-link:hover::after{width:100%;color:var(--ink)}
+  .hero{min-height:100vh;position:relative;display:flex;align-items:center;justify-content:center;padding-top:72px}
+  .hero-bg{position:absolute;inset:0;z-index:-2}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;opacity:0.85}
+  .hero::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(255,255,255,0.2),rgba(245,245,242,0.9)),linear-gradient(125deg,rgba(255,255,255,0.4) 0%,rgba(255,255,255,0) 65%)}
+  .section{padding:90px 4vw;position:relative}
+  .section-title{font-size:clamp(2rem,5vw,3rem);text-align:center;margin-bottom:8px;letter-spacing:-1px;color:var(--ink)}
+  .section-sub{text-align:center;color:var(--muted);margin-bottom:14px;font-size:1.05rem;max-width:640px;margin-left:auto;margin-right:auto}
+  .underline{width:56px;height:4px;background:linear-gradient(90deg,var(--gold),var(--saffron));margin:14px auto 0;border-radius:2px}
+  /* Reveal utility */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+  /* Menu grid */
+  .menu-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:22px}
+  @media(min-width:640px){.menu-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1024px){.menu-grid{grid-template-columns:repeat(3,1fr)}}
+  .menu-card{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    overflow:hidden;
+    transition:transform .35s,box-shadow .35s,border-color .35s;
+    display:flex;flex-direction:column;
+    opacity:0;transform:translateY(34px);
+    transition:opacity 0.75s ease,transform 0.75s ease,box-shadow .35s,border-color .35s;
+  }
+  .menu-card.show{opacity:1;transform:translateY(0)}
+  .menu-card:hover{transform:translateY(-8px);border-color:rgba(197,157,47,0.4);box-shadow:0 24px 48px -12px rgba(0,0,0,0.08)}
+  .card-media{position:relative;height:210px;overflow:hidden;background:#f2f2f0}
+  .card-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+  .menu-card:hover .card-media img{transform:scale(1.07)}
+  .card-tag{position:absolute;top:14px;left:14px;z-index:2;font-size:0.7rem;font-weight:800;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,0.05);color:var(--ink);border:1px solid rgba(0,0,0,0.08);backdrop-filter:blur(6px);letter-spacing:.08em;text-transform:uppercase}
+  .card-body{padding:18px 20px 22px;flex:1;display:flex;flex-direction:column}
+  .card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px}
+  .card-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:800;color:var(--ink);line-height:1.25}
+  .card-price{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:900;color:var(--gold);white-space:nowrap}
+  .card-desc{font-size:0.9rem;color:var(--muted);line-height:1.6;margin-bottom:14px;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .card-meta{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+  .badge{font-size:0.72rem;font-weight:800;padding:3px 10px;border-radius:6px;border:1px solid;letter-spacing:.04em;text-transform:uppercase}
+  .badge.veg{background:rgba(34,197,94,0.1);color:#15803d;border-color:rgba(34,197,94,0.25)}
+  .badge.nonveg{background:rgba(239,68,68,0.1);color:#b91c1c;border-color:rgba(239,68,68,0.25)}
+  .badge.special{background:rgba(197,157,47,0.12);color:var(--gold);border-color:rgba(197,157,47,0.3)}
+  .spice{font-size:0.7rem;font-weight:900;letter-spacing:.06em}
+  .add-btn{
+    margin-top:auto;
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--ink);
+    font-weight:800;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all .2s;
+    display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem
+  }
+  .add-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .add-btn.added{background:var(--gold);color:#fff;border-color:var(--gold)}
+  /* Filters & search */
+  .filter-wrap{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:8px}
+  .filter-btn{
+    padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--ink);font-size:0.9rem;font-weight:700;cursor:pointer;transition:all .25s
+  }
+  .filter-btn.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .search-wrap{position:relative;max-width:460px;margin:0 auto 34px}
+  .search-wrap input{
+    width:100%;padding:12px 44px 12px 18px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--ink);font-size:1rem;outline:none;transition:border-color .2s
+  }
+  .search-wrap input:focus{border-color:var(--gold)}
+  .search-wrap i{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 20px}
+  /* Cart drawer */
+  .cart-drawer{
+    position:fixed;right:0;top:0;bottom:0;width:min(430px,100vw);background:var(--card);
+    border-left:1px solid var(--border);box-shadow:-24px 0 48px -14px rgba(0,0,0,0.12);
+    z-index:60;transform:translateX(100%);transition:transform .4s cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column
+  }
+  .cart-drawer.open{transform:translateX(0)}
+  .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:50;opacity:0;pointer-events:none;transition:opacity .4s}
+  .cart-overlay.active{opacity:1;pointer-events:auto}
+  .cart-header{padding:22px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+  .cart-title{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:900;letter-spacing:-0.5px;color:var(--ink)}
+  .cart-close{background:transparent;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;line-height:1}
+  .cart-list{padding:16px 24px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;flex:1}
+  .cart-item{display:flex;gap:12px;align-items:flex-start;padding-bottom:10px;border-bottom:1px solid rgba(0,0,0,0.04)}
+  .cart-item-img{width:60px;height:60px;object-fit:cover;border-radius:10px;background:#f2f2f0;flex-shrink:0}
+  .cart-item-info{flex:1;min-width:0}
+  .cart-item-name{font-weight:800;color:var(--ink);font-size:0.98rem;line-height:1.3}
+  .cart-item-qty{color:var(--muted);font-size:0.85rem;margin-top:2px}
+  .cart-item-price{color:var(--gold);font-weight:900}
+  .cart-item-remove{background:transparent;border:none;color:var(--muted);font-size:1.15rem;cursor:pointer;padding:2px 6px;line-height:1}
+  .cart-item-remove:hover{color:#b91c1c}
+  .cart-footer{position:sticky;bottom:0;padding:22px 24px;background:linear-gradient(to top,var(--card),transparent);border-top:1px solid var(--border);backdrop-filter:blur(10px);flex-shrink:0}
+  .cart-row{display:flex;justify-content:space-between;font-size:0.95rem;color:var(--ink);margin-bottom:7px}
+  .cart-row.total{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:900;border-top:1px solid rgba(0,0,0,0.06);padding-top:12px;margin-top:10px;color:var(--ink)}
+  .cart-row .val{color:var(--gold)}
+  .cart-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+  .cart-btn{padding:13px;border-radius:10px;font-weight:800;cursor:pointer;transition:all .2s;border:none;font-size:0.95rem;display:flex;align-items:center;justify-content:center;gap:8px}
+  .btn-whatsapp{background:#25d366;color:#fff}
+  .btn-whatsapp:hover{background:#20b958;transform:translateY(-1px)}
+  .btn-table{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+  .btn-table:hover{background:var(--gold);color:#fff;transform:translateY(-1px)}
+  .cart-empty{text-align:center;color:var(--muted);padding:30px 20px}
+  .cart-empty i{opacity:0.4;margin-bottom:10px}
+  /* Rooms gallery */
+  .rooms-track{display:flex;gap:20px;overflow-x:auto;padding-bottom:34px;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .rooms-track::-webkit-scrollbar{display:none}
+  .room-card{flex:none;width:min(360px,90vw);scroll-snap-align:center;position:relative;border-radius:22px;overflow:hidden;background:#fff;border:1px solid var(--border)}
+  .room-img{width:100%;height:230px;object-fit:cover;display:block}
+  .room-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.55),transparent);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff}
+  .room-name{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:900}
+  .room-price{font-size:1.25rem;color:var(--gold);font-weight:900;margin-top:6px}
+  .room-meta{color:rgba(255,255,255,0.85);font-size:0.9rem;margin-top:3px}
+  /* Reservation */
+  .res-grid{display:grid;grid-template-columns:1fr;gap:40px}
+  @media(min-width:1024px){.res-grid{grid-template-columns:1.15fr 1fr}}
+  .form-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:34px}
+  .form-group{margin-bottom:20px}
+  .form-label{display:block;font-size:0.85rem;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.02em}
+  .form-input{width:100%;padding:12px 16px;border-radius:11px;border:1px solid var(--border);background:#fff;color:var(--ink);font-size:1rem;outline:none;transition:border-color .2s}
+  .form-input:focus{border-color:var(--gold)}
+  .btn-reserve{width:100%;background:linear-gradient(135deg,var(--gold),var(--saffron));color:#fff;border:none;padding:15px;border-radius:12px;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;cursor:pointer;transition:transform .2s,box-shadow .2s}
+  .btn-reserve:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(197,157,47,0.5)}
+  .contact-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:34px}
+  .contact-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
+  .contact-item i{color:var(--gold);font-size:1.25rem;margin-top:3px;flex-shrink:0}
+  .contact-item h4{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--ink);margin-bottom:2px}
+  .contact-item p{color:var(--muted);font-size:0.95rem}
+  .contact-item a{color:var(--ink);text-decoration:none;transition:color .2s}
+  .contact-item a:hover{color:var(--gold)}
+  .map-wrap{border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-top:12px;width:100%;background:#f2f2f0}
+  .socials{display:flex;gap:14px;margin-top:28px}
+  .socials a{width:42px;height:42px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--ink);display:grid;place-items:center;font-size:1.2rem;transition:all .25s}
+  .socials a:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+  /* Footer */
+  footer{border-top:1px solid var(--border);padding:60px 4vw 32px}
+  .footer-grid{display:grid;grid-template-columns:1fr 2fr;gap:40px}
+  @media(max-width:768px){.footer-grid{grid-template-columns:1fr}}
+  .footer-brand{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;letter-spacing:-0.5px}
+  .footer-brand span{color:var(--gold)}
+  .footer-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:26px}
+  .footer-links h5{color:var(--ink);font-family:'Playfair Display',serif;margin-bottom:14px}
+  .footer-links ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .footer-links a{color:var(--muted);text-decoration:none;font-size:0.95rem;transition:color .2s}
+  .footer-links a:hover{color:var(--gold)}
+  .copy{margin-top:44px;padding-top:26px;border-top:1px solid rgba(0,0,0,0.06);font-size:0.9rem;text-align:center;color:var(--muted)}
+  .mobile-menu{position:fixed;inset:0;background:#fff;z-index:45;transform:translateX(100%);transition:transform .35s;display:flex;flex-direction-column;padding:80px 24px 40px;gap:24px}
+  .mobile-menu{position:fixed;inset:0;background:#fff;z-index:45;transform:translateX(100%);transition:transform .35s;display:flex;flex-direction:column;padding:80px 24px 40px;gap:24px}
+  .mobile-menu.open{transform:translateX(0)}
+  .mobile-menu a{color:var(--ink);font-size:1.25rem;font-weight:700;text-decoration:none;font-family:'Playfair Display',serif}
+  .mobile-menu .btn{background:linear-gradient(135deg,var(--gold),var(--saffron));color:#fff;padding:14px;border-radius:12px;font-weight:800;text-align:center;width:fit-content}
+  .menu-toggle{background:none;border:none;color:var(--ink);font-size:1.5rem;cursor:pointer;z-index:50}
+  @media(min-width:768px){.menu-toggle{display:none}}
+  .skip{position:absolute;left:-10000px}
+</style>
+</head>
+<body>
+
+<nav class="fixed top-0 left-0 right-0 z-40 glass border-b border-border">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-10">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="scrollToTop()">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-gold-400 to-orange-500 flex items-center justify-center shadow-[0_0_20px_rgba(197,157,47,0.5)]">
+          <i class="fa-solid fa-utensils text-black"></i>
+        </div>
+        <span class="serif text-xl font-black tracking-tight text-black">SHOEB</span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#home" class="nav-link active">Home</a>
+        <a href="#menu" class="nav-link">Menu</a>
+        <a href="#rooms" class="nav-link">Rooms & Ambience</a>
+        <a href="#reserve" class="nav-link">Reserve</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+    </div>
+    <div class="flex items-center gap-4">
+      <button class="cart-btn-nav hidden md:block relative px-5 py-2.5 rounded-lg border border-black/10 bg-black/5 text-black text-sm font-bold hover:bg-black/10 transition" onclick="toggleCart()">
+        Cart <span id="cartCount" class="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-gold-500 text-white text-xs flex items-center justify-center">0</span>
+      </button>
+      <a href="#reserve" class="btn-gold px-5 py-2.5 rounded-lg text-sm font-bold shadow-lg">Book a Table</a>
+      <button class="menu-toggle md:hidden" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="toggleMobileMenu()">Home</a>
+  <a href="#menu" onclick="toggleMobileMenu()">Menu</a>
+  <a href="#rooms" onclick="toggleMobileMenu()">Rooms & Ambience</a>
+  <a href="#reserve" onclick="toggleMobileMenu()">Reserve</a>
+  <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
+  <a href="#reserve" class="btn mt-6">Book a Table</a>
+</div>
+
+<section id="home" class="hero reveal">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1543390703661-e6ba996c0fe8?auto=format&fit=crop&w=1600&q=80" alt="Indian dining" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559339352-12d044a99765?auto=format&fit=crop&w=1600&q=80'">
+  </div>
+  <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+    <span class="inline-block px-4 py-1.5 rounded-full border border-black/10 bg-black/5 text-xs font-bold tracking-widest text-gold-600 uppercase mb-6">Luxury Indian Hotel & Restaurant</span>
+    <h1 class="text-6xl md:text-8xl font-black text-black leading-tight mb-6">SHOEB</h1>
+    <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto font-light">Where royal Indian flavors meet timeless luxury. Signature dishes, grand banquet halls, and elegant stays in the heart of the city.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#menu" class="btn-gold px-8 py-4 rounded-xl text-lg font-bold shadow-lg hover:shadow-gold/50 transition">View Menu</a>
+      <a href="#reserve" class="px-8 py-4 rounded-xl border border-black/10 bg-black/5 text-black text-lg font-bold hover:bg-black/10 transition">Book a Table</a>
+    </div>
+    <div class="mt-16 flex items-center justify-center gap-3 text-gray-400 text-sm">
+      <div class="w-px h-8 bg-black/20"></div>
+      <span>Scroll to explore</span>
+      <div class="w-px h-8 bg-black/20"></div>
+      <i class="fa-solid fa-chevron-down animate-bounce"></i>
+    </div>
+  </div>
+</section>
+
+<section id="menu" class="section reveal">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <div class="underline mb-4"></div>
+      <h2 class="section-title">Interactive <span class="gold-text">Food Menu</span></h2>
+      <p class="section-sub">Handcrafted Indian classics, tandoor specials, biryanis, and sweets — served in elegant white cards.</p>
+    </div>
+
+    <div class="filter-wrap" id="filterWrap">
+      <button class="filter-btn active" data-filter="All">All</button>
+      <button class="filter-btn" data-filter="Veg">Veg</button>
+      <button class="filter-btn" data-filter="Non-Veg">Non-Veg</button>
+      <button class="filter-btn" data-filter="Chef's Special">Chef's Special</button>
+    </div>
+
+    <div class="search-wrap">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="menuSearch" placeholder="Search dishes…" autocomplete="off">
+    </div>
+
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<section id="rooms" class="section reveal" style="background:#faf9f7;">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <div class="underline mb-4"></div>
+      <h2 class="section-title">Hotel Rooms &amp; <span class="gold-text">Ambience</span></h2>
+      <p class="section-sub">Luxury dining, grand banquet halls, and elegant rooms with pricing per night in ₹.</p>
+    </div>
+    <div class="rooms-track" id="roomsTrack"></div>
+  </div>
+</section>
+
+<section id="reserve" class="section reveal">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <div class="underline mb-4"></div>
+      <h2 class="section-title">Table <span class="gold-text">Reservation</span></h2>
+      <p class="section-sub">Reserve your table for an unforgettable dining experience.</p>
+    </div>
+    <div class="res-grid">
+      <div class="form-card">
+        <form id="reserveForm" onsubmit="handleReserve(event)">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-input" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="form-group">
+              <label class="form-label">Date</label>
+              <input type="date" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Time</label>
+              <input type="time" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-group mb-6">
+            <label class="form-label">Number of Guests</label>
+            <select class="form-input" required>
+              <option value="1">1 Guest</option>
+              <option value="2" selected>2 Guests</option>
+              <option value="4">4 Guests</option>
+              <option value="6">6 Guests</option>
+              <option value="8">8+ Guests</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Special Requests</label>
+            <textarea class="form-input" rows="3" placeholder="Occasion, dietary preferences…"></textarea>
+          </div>
+          <button type="submit" class="btn-reserve">Reserve Table</button>
+        </form>
+      </div>
+      <div class="contact-card">
+        <div class="space-y-6">
+          <div class="contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <h4>Visit Us</h4>
+              <p>Shoeb Hotel & Restaurant<br>Connaught Place, New Delhi, Delhi 110001, India</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <h4>Call Us</h4>
+              <p><a href="tel:+919876543210">+91 98765 43210</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fa-brands fa-whatsapp"></i>
+            <div>
+              <h4>WhatsApp</h4>
+              <p><a href="https://wa.me/919876543210">Chat with us</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="map-wrap">
+          <iframe src="https://www.google.com/maps?q=Shoeb%20Hotel%20%26%20Restaurant%20Delhi&output=embed&zoom=15" loading="lazy" style="border:0;width:100%;height:100%" allowfullscreen></iframe>
+        </div>
+        <p class="text-xs text-gray-400 text-center mt-3">Replace iframe key with your Google Maps API key for a live embed.</p>
+        <div class="socials">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <div class="cart-title">Order <span class="gold-text">Summary</span></div>
+    <button class="cart-close" onclick="toggleCart()">&times;</button>
+  </div>
+  <div class="cart-list" id="cartList">
+    <div class="cart-empty"><i class="fa-solid fa-basket-shopping text-2xl mb-2 block"></i>Your cart is empty</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-row"><span>Subtotal</span><span id="cartSubtotal" class="val">₹0</span></div>
+    <div class="cart-row"><span>GST (5%)</span><span id="cartGst" class="val text-gray-400">₹0</span></div>
+    <div class="cart-row total"><span>Total</span><span id="cartTotal" class="val">₹0</span></div>
+    <div class="cart-actions">
+      <button class="cart-btn btn-whatsapp" onclick="whatsappOrder()"><i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</button>
+      <button class="cart-btn btn-table" onclick="placeTableOrder()"><i class="fa-solid fa-utensils"></i> Place Table Order</button>
+    </div>
+    <p class="text-xs text-gray-400 text-center mt-4">GST @ 5% on food & beverages.</p>
+  </div>
+</div>
+
+<footer class="reveal">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand mb-4">SHOEB<span>.</span></div>
+        <p class="text-gray-600 text-sm leading-relaxed max-w-xs">Luxury Indian hospitality — signature flavors, grand ambience, and warm service.</p>
+        <div class="socials mt-6 gap-4">
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div>
+          <h5>Menu</h5>
+          <ul>
+            <li><a href="#menu">Starters</a></li>
+            <li><a href="#menu">Main Course</a></li>
+            <li><a href="#menu">Tandoor & Breads</a></li>
+            <li><a href="#menu">Biryanis</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>More</h5>
+          <ul>
+            <li><a href="#menu">Desserts</a></li>
+            <li><a href="#menu">Beverages</a></li>
+            <li><a href="#rooms">Rooms</a></li>
+            <li><a href="#reserve">Reservations</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Contact</h5>
+          <ul>
+            <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+            <li><a href="https://wa.me/919876543210">WhatsApp</a></li>
+            <li><a href="#">hello@shoeb.in</a></li>
+            <li><a href="#contact">New Delhi, India</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="copy">&copy; 2026 SHOEB Hotel & Restaurant. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  'use strict';
+
+  const FALLBACK_IMG = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80';
+
+  const menuItems = [
+    { id: 1, name: 'Paneer Tikka', category: 'Starters', type: 'Veg', spice: 'Medium', price: 240, special: true,
+      desc: 'Cottage cheese cubes marinated in spiced yogurt, charred in a clay tandoor, finished with lemon and chaat masala.',
+      img: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=800&q=80' },
+    { id: 2, name: 'Crispy Samosa Platter', category: 'Starters', type: 'Veg', spice: 'Mild', price: 80, special: false,
+      desc: 'Golden-fried pastry stuffed with spiced potatoes and peas, served with tamarind and mint chutney.',
+      img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=800&q=80' },
+    { id: 3, name: 'Tandoori Chicken', category: 'Starters', type: 'Non-Veg', spice: 'Hot', price: 320, special: true,
+      desc: 'Leg and thigh pieces marinated in yogurt and tandoori spices, roasted over charcoal for a smoky finish.',
+      img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80' },
+    { id: 4, name: 'Veg Hakka Noodles', category: 'Starters', type: 'Veg', spice: 'Mild', price: 180, special: false,
+      desc: 'Wok-tossed noodles with julienned vegetables, soy, and chili-garlic sauce.',
+      img: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=800&q=80' },
+    { id: 5, name: 'Classic Cheese Burger', category: 'Starters', type: 'Veg', spice: 'Mild', price: 160, special: false,
+      desc: 'Juicy cheese patty with lettuce, tomato, and special sauce in a toasted brioche bun.',
+      img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80' },
+    { id: 6, name: 'Margherita Farmhouse Pizza', category: 'Starters', type: 'Veg', spice: 'Mild', price: 299, special: false,
+      desc: 'Fresh mozzarella, tomato basil sauce, and farm vegetables on a wood-fired crust.',
+      img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80' },
+    { id: 7, name: 'Butter Chicken', category: 'Main Course', type: 'Non-Veg', spice: 'Medium', price: 340, special: true,
+      desc: 'Tender chicken in a rich, creamy tomato-butter gravy with fenugreek and cream.',
+      img: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=800&q=80' },
+    { id: 8, name: 'Shahi Paneer Masala', category: 'Main Course', type: 'Veg', spice: 'Medium', price: 260, special: false,
+      desc: 'Cottage cheese in a royal cashew-tomato gravy, finished with cream and saffron.',
+      img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=800&q=80' },
+    { id: 9, name: 'Dal Makhani', category: 'Main Course', type: 'Veg', spice: 'Mild', price: 210, special: false,
+      desc: 'Slow-cooked black lentils and kidney beans simmered overnight with butter and cream.',
+      img: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80' },
+    { id: 10, name: 'Hyderabadi Dum Biryani', category: 'Biryanis', type: 'Non-Veg', spice: 'Hot', price: 280, special: true,
+      desc: 'Fragrant basmati layered with spiced chicken and caramelized onions, dum-cooked in a sealed pot.',
+      img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80' },
+    { id: 11, name: 'Garlic Butter Naan Basket', category: 'Tandoor & Breads', type: 'Veg', spice: 'Mild', price: 110, special: false,
+      desc: 'Freshly baked tandoor naan brushed with garlic butter and chopped coriander.',
+      img: 'https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=800&q=80' },
+    { id: 12, name: 'Royal Maharaja Thali', category: 'Main Course', type: 'Non-Veg', spice: 'Medium', price: 390, special: true,
+      desc: 'An elaborate spread of dal, sabzi, rice, roti, raita, salad, and dessert fit for royalty.',
+      img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=800&q=80' },
+    { id: 13, name: 'Crispy Masala Dosa', category: 'Main Course', type: 'Veg', spice: 'Mild', price: 130, special: false,
+      desc: 'Fermented rice crepe stuffed with spiced potato mash, served with sambar and coconut chutney.',
+      img: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=800&q=80' },
+    { id: 14, name: 'Steamed Idli Sambar', category: 'Main Course', type: 'Veg', spice: 'Mild', price: 90, special: false,
+      desc: 'Soft steamed rice cakes with tangy lentil stew and coconut chutney.',
+      img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80' },
+    { id: 15, name: 'Hot Gulab Jamun', category: 'Desserts', type: 'Veg', spice: 'Mild', price: 95, special: false,
+      desc: 'Soft milk-solid dumplings soaked in warm cardamom sugar syrup.',
+      img: 'https://images.unsplash.com/photo-1666190092159-3171cf0fbb12?auto=format&fit=crop&w=800&q=80' },
+    { id: 16, name: 'Mango Lassi', category: 'Beverages', type: 'Veg', spice: 'Mild', price: 110, special: false,
+      desc: 'Chilled yogurt blended with ripe mango pulp and a touch of cardamom.',
+      img: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=800&q=80' },
+    { id: 17, name: 'Cold Coffee with Ice Cream', category: 'Beverages', type: 'Veg', spice: 'Mild', price: 140, special: false,
+      desc: 'Iced coffee blended with vanilla ice cream and whipped cream.',
+      img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80' },
+    { id: 18, name: 'Kulhad Masala Chai', category: 'Beverages', type: 'Veg', spice: 'Mild', price: 50, special: false,
+      desc: 'Spiced Indian tea served in a traditional clay cup.',
+      img: 'https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?auto=format&fit=crop&w=800&q=80' },
+  ];
+
+  const rooms = [
+    { name: 'Luxury Dining Suite', price: '₹6,500', meta: 'Per night · King bed · City view', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80' },
+    { name: 'Royal Banquet Hall', price: '₹9,000', meta: 'Per event · 200 guests · Stage & lights', img: 'https://images.unsplash.com/photo-1556912116-1c5e5281814a?auto=format&fit=crop&w=800&q=80' },
+    { name: 'Deluxe Room', price: '₹4,500', meta: 'Per night · Queen bed · Garden view', img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80' },
+    { name: 'Executive Suite', price: '₹8,000', meta: 'Per night · Separate lounge · Work desk', img: 'https://images.unsplash.com/photo-1502672260266-1c1ef1d77d5f?auto=format&fit=crop&w=800&q=80' },
+    { name: 'Pool View Room', price: '₹10,500', meta: 'Per night · Pool access · Balcony', img: 'https://images.unsplash.com/photo-1533234729825-1560438b175e?auto=format&fit=crop&w=800&q=80' },
+  ];
+
+  let activeFilter = 'All';
+  let searchQuery = '';
+  const cart = [];
+
+  const menuGrid = document.getElementById('menuGrid');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const searchInput = document.getElementById('menuSearch');
+  const cartList = document.getElementById('cartList');
+  const cartCountEl = document.getElementById('cartCount');
+  const cartSubtotalEl = document.getElementById('cartSubtotal');
+  const cartGstEl = document.getElementById('cartGst');
+  const cartTotalEl = document.getElementById('cartTotal');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const cartOverlay = document.getElementById('cartOverlay');
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from('#home h1', { y: 40, opacity: 0, duration: 1, delay: 0.2, ease: 'power3.out' });
+  gsap.from('#home p', { y: 30, opacity: 0, duration: 1, delay: 0.45, ease: 'power3.out' });
+  gsap.from('#home .btn-gold', { y: 30, opacity: 0, duration: 1, delay: 0.7, ease: 'power3.out' });
+
+  gsap.utils.toArray('.reveal').forEach((el) => {
+    gsap.from(el, {
+      y: 50, opacity: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 82%', toggleActions: 'play none none reverse' }
+    });
+  });
+
+  function badgeHtml(item) {
+    const b = [];
+    b.push(`<span class="badge ${item.type === 'Veg' ? 'veg' : 'nonveg'}">${item.type}</span>`);
+    if (item.special) b.push('<span class="badge special">Chef\'s Special</span>');
+    b.push(`<span class="spice">${item.spice}</span>`);
+    return b.join('');
+  }
+
+  function renderMenu() {
+    const filtered = menuItems.filter(item => {
+      const byFilter = activeFilter === 'All'
+        ? true
+        : activeFilter === 'Veg' ? item.type === 'Veg'
+        : activeFilter === 'Non-Veg' ? item.type === 'Non-Veg'
+        : item.special;
+      const q = searchQuery.toLowerCase();
+      const bySearch = item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q);
+      return byFilter && bySearch;
+    });
+
+    menuGrid.innerHTML = '';
+    if (filtered.length === 0) {
+      menuGrid.innerHTML = '<div class="empty">No dishes found matching your search.</div>';
+      return;
+    }
+
+    filtered.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'menu-card';
+      card.style.transitionDelay = (i * 0.1) + 's';
+      card.innerHTML = `
+        <div class="card-media">
+          <img src="${item.img}" alt="${item.name}" loading="lazy"
+            onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
+        </div>
+        <div class="card-body">
+          <div class="card-header">
+            <h3 class="card-name">${item.name}</h3>
+            <span class="card-price">₹${item.price}</span>
+          </div>
+          <p class="card-desc">${item.desc}</p>
+          <div class="card-meta">${badgeHtml(item)}</div>
+          <button class="add-btn" onclick="addToCart(${item.id})" data-id="${item.id}">
+            <i class="fa-solid fa-plus"></i> Add
+          </button>
+        </div>
+      `;
+      menuGrid.appendChild(card);
+    });
+
+    observer.disconnect();
+    document.querySelectorAll('.menu-card').forEach((card, i) => {
+      card.style.transitionDelay = (i * 0.1) + 's';
+      observer.observe(card);
+    });
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -70px 0px' });
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.getAttribute('data-filter');
+      renderMenu();
+    });
+  });
+
+  searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    renderMenu();
+  });
+
+  window.addToCart = function(id) {
+    const item = menuItems.find(m => m.id === id);
+    const existing = cart.find(c => c.id === id);
+    if (existing) existing.qty += 1;
+    else cart.push({ ...item, qty: 1 });
+    updateCartUI();
+    toggleCart(true);
+    const btn = document.querySelector(`button.add-btn[data-id="${id}"]`);
+    if (btn) {
+      btn.classList.add('added');
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Added';
+      setTimeout(() => {
+        btn.classList.remove('added');
+        btn.innerHTML = '<i class="fa-solid fa-plus"></i> Add';
+      }, 1200);
+    }
+  };
+
+  window.removeFromCart = function(id) {
+    const idx = cart.findIndex(c => c.id === id);
+    if (idx === -1) return;
+    if (cart[idx].qty > 1) cart[idx].qty -= 1;
+    else cart.splice(idx, 1);
+    updateCartUI();
+  };
+
+  function updateCartUI() {
+    cartCountEl.textContent = cart.reduce((s, c) => s + c.qty, 0);
+    cartList.innerHTML = '';
+
+    if (cart.length === 0) {
+      cartList.innerHTML = '<div class="cart-empty"><i class="fa-solid fa-basket-shopping text-2xl mb-2 block"></i>Your cart is empty</div>';
+      cartSubtotalEl.textContent = '₹0';
+      cartGstEl.textContent = '₹0';
+      cartTotalEl.textContent = '₹0';
+      return;
+    }
+
+    let subtotal = 0;
+    cart.forEach(item => {
+      subtotal += item.price * item.qty;
+      const el = document.createElement('div');
+      el.className = 'cart-item';
+      el.innerHTML = `
+        <img src="${item.img}" alt="${item.name}" class="cart-item-img" loading="lazy"
+          onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-qty">Qty: ${item.qty} × ₹${item.price}</div>
+        </div>
+        <div class="cart-item-price">₹${item.price * item.qty}</div>
+        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">&times;</button>
+      `;
+      cartList.appendChild(el);
+    });
+
+    const gst = subtotal * 0.05;
+    const total = subtotal + gst;
+    cartSubtotalEl.textContent = '₹' + subtotal.toFixed(0);
+    cartGstEl.textContent = '₹' + gst.toFixed(0);
+    cartTotalEl.textContent = '₹' + total.toFixed(0);
+  }
+
+  function toggleCart(forceOpen) {
+    const open = forceOpen === undefined ? !cartDrawer.classList.contains('open') : forceOpen;
+    if (open) {
+      cartDrawer.classList.add('open');
+      cartOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    } else {
+      cartDrawer.classList.remove('open');
+      cartOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  window.toggleCart = toggleCart;
+
+  function buildOrderText() {
+    if (cart.length === 0) return '';
+    let lines = ['*SHOEB — Table Order*\n'];
+    cart.forEach(item => {
+      lines.push(`• ${item.name} × ${item.qty} — ₹${(item.price * item.qty).toFixed(0)}`);
+    });
+    const subtotal = cart.reduce((s, c) => s + c.price * c.qty, 0);
+    const gst = subtotal * 0.05;
+    const total = subtotal + gst;
+    lines.push('', `Subtotal: ₹${subtotal.toFixed(0)}`, `GST (5%): ₹${gst.toFixed(0)}`, `*Total: ₹${total.toFixed(0)}*`, '\nPlease confirm my table order. Thank you!');
+    return lines.join('%0A');
+  }
+
+  window.whatsappOrder = function() {
+    if (cart.length === 0) return alert('Your cart is empty.');
+    const text = buildOrderText();
+    window.open(`https://wa.me/919876543210?text=${text}`, '_blank');
+  };
+
+  window.placeTableOrder = function() {
+    if (cart.length === 0) return alert('Your cart is empty.');
+    alert('Order prepared!\nTotal: ' + cartTotalEl.textContent + '\nProceeding to reservation…');
+    toggleCart(false);
+    document.getElementById('reserve').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  (function renderRooms() {
+    const track = document.getElementById('roomsTrack');
+    rooms.forEach((r, i) => {
+      const card = document.createElement('div');
+      card.className = 'room-card reveal';
+      card.style.transitionDelay = (i * 0.1) + 's';
+      card.innerHTML = `
+        <img src="${r.img}" alt="${r.name}" class="room-img" loading="lazy"
+          onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
+        <div class="room-overlay">
+          <div>
+            <div class="room-name">${r.name}</div>
+            <div class="room-price">${r.price} /night</div>
+            <div class="room-meta">${r.meta}</div>
+          </div>
+        </div>
+      `;
+      track.appendChild(card);
+    });
+    gsap.utils.toArray('.room-card').forEach(el => {
+      gsap.from(el, { x: -60, opacity: 0, duration: 0.9, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none reverse' } });
+    });
+  })();
+
+  window.handleReserve = function(e) {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd);
+    alert('Reservation received!\nName: ' + data.name + '\nDate: ' + data.date + '\nTime: ' + data.time + '\nGuests: ' + data.guests + '\nWe will confirm shortly.');
+    e.target.reset();
+  };
+
+  window.scrollToTop = function() { window.scrollTo({ top: 0, behavior: 'smooth' }); };
+
+  function toggleMobileMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  renderMenu();
+})();
+</script>
+
+</body>
+</html>
