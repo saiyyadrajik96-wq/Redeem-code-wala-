@@ -1,0 +1,188 @@
+{
+  "users": [
+    {
+      "id": "u_me",
+      "name": "Aarav Sharma",
+      "phone": "9876543210",
+      "upiId": "9876543210@ybl",
+      "pinHash": "$2a$10$qpqOS2TkxD73gw37x5N.Ge./3tL1xbsNQaAZCkO4hsUk7/Zc6jnYi",
+      "balance": 12450.75,
+      "color": "#5f259f",
+      "createdAt": 1792216786675
+    }
+  ],
+  "contacts": [
+    {
+      "id": "c1",
+      "userId": "u_me",
+      "name": "Priya Nair",
+      "upiId": "priya@ybl",
+      "phone": "9812345678",
+      "color": "#e91e63"
+    },
+    {
+      "id": "c2",
+      "userId": "u_me",
+      "name": "Rahul Verma",
+      "upiId": "rahul.v@okaxis",
+      "phone": "9898989898",
+      "color": "#00897b"
+    },
+    {
+      "id": "c3",
+      "userId": "u_me",
+      "name": "Sneha Iyer",
+      "upiId": "sneha@paytm",
+      "phone": "9744556677",
+      "color": "#fb8c00"
+    },
+    {
+      "id": "c4",
+      "userId": "u_me",
+      "name": "Vikram Singh",
+      "upiId": "vikram.s@oksbi",
+      "phone": "9700112233",
+      "color": "#3949ab"
+    },
+    {
+      "id": "c5",
+      "userId": "u_me",
+      "name": "Mom",
+      "upiId": "mom.family@ybl",
+      "phone": "9000011111",
+      "color": "#8e24aa"
+    },
+    {
+      "id": "c6",
+      "userId": "u_me",
+      "name": "Chai Tapri",
+      "upiId": "chaitapri@ibl",
+      "phone": "9111122222",
+      "color": "#6d4c41"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "t1",
+      "userId": "u_me",
+      "type": "receive",
+      "name": "Priya Nair",
+      "upiId": "priya@ybl",
+      "amount": 850,
+      "note": "Dinner split",
+      "category": "receive",
+      "status": "SUCCESS",
+      "createdAt": 1795655506675
+    },
+    {
+      "id": "t2",
+      "userId": "u_me",
+      "type": "send",
+      "name": "Rahul Verma",
+      "upiId": "rahul.v@okaxis",
+      "amount": 1200,
+      "note": "Movie tickets",
+      "category": "send",
+      "status": "SUCCESS",
+      "createdAt": 1795586386675
+    },
+    {
+      "id": "t3",
+      "userId": "u_me",
+      "type": "recharge",
+      "name": "Jio Prepaid",
+      "upiId": "",
+      "amount": 299,
+      "note": "9876543210",
+      "category": "Mobile Recharge",
+      "status": "SUCCESS",
+      "createdAt": 1795499986675
+    },
+    {
+      "id": "t4",
+      "userId": "u_me",
+      "type": "bill",
+      "name": "BESCOM Electricity",
+      "upiId": "",
+      "amount": 1540,
+      "note": "Oct bill",
+      "category": "Electricity",
+      "status": "SUCCESS",
+      "createdAt": 1795413586675
+    },
+    {
+      "id": "t5",
+      "userId": "u_me",
+      "type": "send",
+      "name": "Chai Tapri",
+      "upiId": "chaitapri@ibl",
+      "amount": 60,
+      "note": "Cutting chai",
+      "category": "send",
+      "status": "SUCCESS",
+      "createdAt": 1795327186675
+    },
+    {
+      "id": "t6",
+      "userId": "u_me",
+      "type": "receive",
+      "name": "Sneha Iyer",
+      "upiId": "sneha@paytm",
+      "amount": 2500,
+      "note": "Trip contribution",
+      "category": "receive",
+      "status": "SUCCESS",
+      "createdAt": 1795240786675
+    },
+    {
+      "id": "t7",
+      "userId": "u_me",
+      "type": "bill",
+      "name": "Airtel Broadband",
+      "upiId": "",
+      "amount": 999,
+      "note": "Monthly",
+      "category": "Broadband",
+      "status": "SUCCESS",
+      "createdAt": 1795154386675
+    },
+    {
+      "id": "t8",
+      "userId": "u_me",
+      "type": "send",
+      "name": "Mom",
+      "upiId": "mom.family@ybl",
+      "amount": 5000,
+      "note": "Home",
+      "category": "send",
+      "status": "SUCCESS",
+      "createdAt": 1794981586675
+    },
+    {
+      "id": "t9",
+      "userId": "u_me",
+      "type": "recharge",
+      "name": "Airtel DTH",
+      "upiId": "",
+      "amount": 350,
+      "note": "Family TV",
+      "category": "DTH",
+      "status": "SUCCESS",
+      "createdAt": 1794808786675
+    },
+    {
+      "id": "t10",
+      "userId": "u_me",
+      "type": "receive",
+      "name": "Vikram Singh",
+      "upiId": "vikram.s@oksbi",
+      "amount": 3200,
+      "note": "Rent share",
+      "category": "receive",
+      "status": "SUCCESS",
+      "createdAt": 1794635986675
+    }
+  ],
+  "recharges": [],
+  "bills": []
+}
